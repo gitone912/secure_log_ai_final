@@ -1,2 +1,5 @@
 access.log
 new_file.log
+/core/ai_models/access.log
+parquet_dir/file_10365.parquet
+parquet_dir/file_103648.parquet

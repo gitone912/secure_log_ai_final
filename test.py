@@ -126,5 +126,5 @@ def compare_urls(url1, url2):
     return fuzz.ratio(url1, url2)
 
 # Example usage
-# logs_df_processed = process_logs('access.log', percentage=0.001)
-# print(logs_df_processed.head())
+logs_df_processed = process_logs('access.log', percentage=0.001)
+print(logs_df_processed.head())
