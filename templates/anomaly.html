@@ -368,16 +368,17 @@
                 <i class="ion-ios-chatboxes-outline"></i>
                 <span>NLP</span>
             </a></li>
-            <li><a href="#">
-                <i class="ion-ios-person-outline"></i>
-                <span>Permission</span>
+           
+            <li ><a href="{% url "nlp" %}">
+                <i class="ion-ios-chatboxes-outline"></i>
+                <span>NLP GPT</span>
             </a></li>
-            <li><a href="#">
-                <i class="ion-ios-person-outline"></i>
-                <span>Users</span>
+            <li  ><a href="{% url "llama" %}">
+                <i class="ion-ios-chatboxes-outline"></i>
+                <span>NLP(LLaMA)</span>
             </a></li>
             <li class="has-sub">
-                <a href="#">
+                <a href="{% url "other_models" %}">
                     <i class="ion-ios-person-outline"></i>
                     <span>Other Anomaly Models</span>
                 </a>
@@ -387,6 +388,10 @@
                     <li><a href="#">LOF</a></li>
                 </ul>
             </li>
+            <li ><a href="{% url "logout" %}">
+                <i class="ion-ios-chatboxes-outline"></i>
+                <span>logout</span>
+            </a></li>
             
             
 

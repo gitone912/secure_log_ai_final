@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
     <link rel="stylesheet" href="https://raw.githubusercontent.com/forsigner/magic-check/master/css/magic-check.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+  
 </head>
 <body>
     <style>
@@ -356,10 +358,27 @@
         select[name="selected_lines"] {
             height: 600px; /* Adjust the height value as needed */
         }
-        #main-content select[name="selected_lines"] option {
-            font-family: 'Roboto', sans-serif;
-            font-size: 14px;
-            color: #555;
+        #main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Style for the form with left padding */
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 70%; /* Adjust the width as needed */
+            padding-left: 30%; /* 30% padding from the left */
+        }
+
+        /* Style for the threat and solution tables */
+        .explanation-table {
+            width: 70%; /* Adjust the width as needed */
+            margin-top: 20px; /* Add space between form and tables */
         }
     </style>
     <div id="logo">
@@ -378,18 +397,14 @@
             
             <li  class="active"><a href="{% url "nlp" %}">
                 <i class="ion-ios-chatboxes-outline"></i>
-                <span>NLP</span>
+                <span>NLP GPT</span>
             </a></li>
-            <li><a href="#">
-                <i class="ion-ios-person-outline"></i>
-                <span>Permission</span>
-            </a></li>
-            <li><a href="#">
-                <i class="ion-ios-person-outline"></i>
-                <span>Users</span>
+            <li  ><a href="{% url "llama" %}">
+                <i class="ion-ios-chatboxes-outline"></i>
+                <span>NLP(LLaMA)</span>
             </a></li>
             <li class="has-sub">
-                <a href="#">
+                <a href="{% url "other_models" %}">
                     <i class="ion-ios-person-outline"></i>
                     <span>Other Anomaly Models</span>
                 </a>
@@ -399,33 +414,59 @@
                     <li><a href="#">LOF</a></li>
                 </ul>
             </li>
-           
+            <li ><a href="{% url "logout" %}">
+                <i class="ion-ios-chatboxes-outline"></i>
+                <span>logout</span>
+            </a></li>
             
 
         </ul>
     </div>
     <div id="main-content">
-        <form method="post" action="{% url 'nlp' %}">
+        <form class="text-center" method="post" action="{% url 'nlp' %}">
             {% csrf_token %}
-            <label for="selected_lines">Select Lines:</label>
-            <select name="selected_lines" multiple>
-                {% for line_number, line in lines|enumerate %}
-                    <option value="{{ line }}">{{ line_number + 1 }}. {{ line }}</option>
-                {% endfor %}
-            </select>
-            <br>
-            <input type="submit" value="Submit">
+            
+            <div class="form-group">
+                <label for="selected_lines">Select Number of Lines:</label>
+                <input type="number" class="form-control" name="selected_lines" min="1" value="5" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    
-        {% if threat and solution %}
-            <h2>Threat Explanation:</h2>
-            <p>{{ threat }}</p>
-    
-            <h2>Solution Explanation:</h2>
-            <p>{{ solution }}</p>
-        {% endif %}
+
+        
     </div>
     
+    {% if threat and solution %}
+            <!-- Threat Explanation Box -->
+            <div class="container mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">selected logs</h2>
+                        <p class="card-text">{{ logs }}</p>
+                    </div>
+                </div>
+            </div>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Threat Explanation:</h2>
+            <p class="card-text">{{ threat }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Solution Explanation Box -->
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Solution Explanation:</h2>
+            <p class="card-text">{{ solution }}</p>
+        </div>
+    </div>
+</div>
+
+        {% endif %}
        
     </div>
 

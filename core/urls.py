@@ -10,5 +10,7 @@ urlpatterns = [
     path('upload/', upload_file, name='upload_file'),
     path('anomaly_detection/', anomaly, name='anomaly'),
     path('get_threat_solution/', get_threat_solution, name='nlp'),
+    path('llama/', llama, name='llama'),
+    path('other_models', other_models, name='other_models'),
     
 ]

@@ -3,7 +3,7 @@ import openai
 
 def generate_prompt(prompt):
 # Set up your OpenAI API key
-    openai.api_key = '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'
+    openai.api_key = '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'
 
     
     # Generate response

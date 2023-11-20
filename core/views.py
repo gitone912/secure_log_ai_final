@@ -7,6 +7,7 @@ from core.ai_models.siem_comp import *
 from core.ai_models.data_prep import process_logs 
 from core.ai_models.isolation_f import *
 from core.nlp.gptkey import *
+from core.nlp.llama import *
 
 def home_view(request):
     return render(request, 'homepage.html')
@@ -100,14 +101,43 @@ def read_log_file(file_path):
 
 def get_threat_solution(request):
     file_path = '/Users/pranaymishra/Desktop/CU/secure_log_ai/core/static/text_files/anomaly_logs.txt'
-    lines = read_log_file(file_path)
-
-    threat = ""
-    solution = ""
 
     if request.method == 'POST':
-        selected_lines = request.POST.getlist('selected_lines')
-        threat = generate_prompt(f'find threats in this log data {selected_lines}')
-        solution = generate_prompt(f'find solutions of this log data {selected_lines}')
+        selected_lines = int(request.POST.get('selected_lines', 50))
 
-    return render(request, 'nlp.html', {'lines': lines, 'threat': threat, 'solution': solution})
+        # Read logs from the file
+        with open(file_path, 'r') as file:
+            logs = file.readlines()
+
+        selected_logs = logs[1:selected_lines]
+        
+        threat = generate_prompt(f'you are a cyber security expert in my company and you have to find threats in these selected lines of logs, try to find what threats these logs can be able to create , the logs are this {selected_logs}')
+        solution = generate_prompt(f'you are a cyber security expert in my company and you have to find solution of these selecteed logs ,the logs are this{selected_logs} , try to find best and legit solution for these logs')
+        
+        return render(request, 'nlp.html', {'threat': threat, 'solution': solution,'logs':selected_logs})
+
+    return render(request, 'nlp.html')
+
+
+def llama(request):
+    file_path = '/Users/pranaymishra/Desktop/CU/secure_log_ai/core/static/text_files/anomaly_logs.txt'
+
+    if request.method == 'POST':
+        selected_lines = int(request.POST.get('selected_lines', 50))
+
+        # Read logs from the file
+        with open(file_path, 'r') as file:
+            logs = file.readlines()
+
+        selected_logs = logs[1:selected_lines]
+        
+        threat = run_chatbot(f'you are a cyber security expert in my company and you have to find threats in these selected lines of logs, try to find what threats these logs can be able to create , the logs are this {selected_logs}')
+        solution = run_chatbot(f'you are a cyber security expert in my company and you have to find solution of these selecteed logs ,the logs are this{selected_logs} , try to find best and legit solution for these logs')
+        
+        return render(request, 'llama.html', {'threat': threat, 'solution': solution})
+
+    return render(request, 'llama.html')
+
+
+def other_models(request):
+    return render(request, 'kmean.html')

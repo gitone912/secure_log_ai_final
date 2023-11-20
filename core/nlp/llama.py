@@ -18,3 +18,4 @@ def run_chatbot(prompt):
 # # Print the entire output line
 # print(output_line)
 # export REPLICATE_API_TOKEN=r8_BfzemfuXrzof5FwwdjjMycJRmiZK6ye3IxPOO
+
