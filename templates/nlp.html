@@ -350,23 +350,43 @@
             
         }    
     </style>
+    <style>
+        /* ... (existing styles) ... */
+    
+        select[name="selected_lines"] {
+            height: 600px; /* Adjust the height value as needed */
+        }
+        #main-content select[name="selected_lines"] option {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
     <div id="logo">
         <span class="big-logo">SecureLog.AI</span>
     </div>
     <div id="left-menu">
         <ul>
-            <li class="active"><a href="#">
+            <li ><a href="{% url "dashboard" %}">
                 <i class="ion-ios-person-outline"></i>
                 <span>Dashboard</span>
             </a></li>
-            <li><a href=" {% url "anomaly" %} ">
+            <li><a href="{% url "anomaly" %}">
                 <i class="ion-ios-albums-outline"></i>
                 <span>Anomaly</span>
             </a></li>
             
-            <li><a href="{% url "nlp" %}">
+            <li  class="active"><a href="{% url "nlp" %}">
                 <i class="ion-ios-chatboxes-outline"></i>
                 <span>NLP</span>
+            </a></li>
+            <li><a href="#">
+                <i class="ion-ios-person-outline"></i>
+                <span>Permission</span>
+            </a></li>
+            <li><a href="#">
+                <i class="ion-ios-person-outline"></i>
+                <span>Users</span>
             </a></li>
             <li class="has-sub">
                 <a href="#">
@@ -385,110 +405,28 @@
         </ul>
     </div>
     <div id="main-content">
-        <div id="header">
-            <div class="header-left float-left">
-                <i id="toggle-left-menu" class="ion-android-menu"></i>
-            </div>
-            <div class="header-right float-right">
-                <i class="ion-ios-people"></i>
-            </div>
-        </div>
-
-        <div class="container mt-4"> <br><br>
-            <h1 class="text-center mb-4">Cybersecurity Web App Charts</h1>
-        
-            <div class="row mb-4">
-                <!-- Status Codes Distribution Pie Chart -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            Status Codes Distribution
-                        </div>
-                        <div class="card-body">
-                            <img src="{% static 'charts/status_distribution_bar.jpg' %}" class="img-fluid" alt="Status Distribution">
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Traffic Label Distribution Pie Chart -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            Traffic Label Distribution
-                        </div>
-                        <div class="card-body">
-                            <img src="{% static 'charts/traffic_label_distribution_pie.jpg' %}" class="img-fluid" alt="Traffic Label Distribution">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="row mb-4">
-                <!-- Requests Over Time Time Series Plot -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            Requests Over Time
-                        </div>
-                        <div class="card-body">
-                            <img src="{% static 'charts/requests_over_time_time_series.jpg' %}" class="img-fluid" alt="Requests Over Time">
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Size by Traffic Label Box Plot -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            Size of Requests by Traffic Label
-                        </div>
-                        <div class="card-body">
-                            <img src="{% static 'charts/size_by_traffic_label_box.jpg' %}" class="img-fluid" alt="Size by Traffic Label">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="row mb-4">
-                <!-- Method Distribution Pie Chart -->
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            Method Distribution
-                        </div>
-                        <div class="card-body">
-                            <img src="{% static 'charts/method_distribution.jpg' %}" class="img-fluid" alt="Method Distribution">
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Status Distribution Pie Chart -->
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            Status Distribution
-                        </div>
-                        <div class="card-body">
-                            <img src="{% static 'charts/status_distribution_bar.jpg' %}" class="img-fluid" alt="Status Distribution">
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- User Agent Distribution Pie Chart -->
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            User Agent Distribution
-                        </div>
-                        <div class="card-body">
-                            <img src="{% static 'charts/user_agent_distribution.jpg' %}" class="img-fluid" alt="User Agent Distribution">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-        </div>
-        
+        <form method="post" action="{% url 'nlp' %}">
+            {% csrf_token %}
+            <label for="selected_lines">Select Lines:</label>
+            <select name="selected_lines" multiple>
+                {% for line_number, line in lines|enumerate %}
+                    <option value="{{ line }}">{{ line_number + 1 }}. {{ line }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    
+        {% if threat and solution %}
+            <h2>Threat Explanation:</h2>
+            <p>{{ threat }}</p>
+    
+            <h2>Solution Explanation:</h2>
+            <p>{{ solution }}</p>
+        {% endif %}
+    </div>
+    
+       
     </div>
 
     <span id="show-lable">Hello</span>

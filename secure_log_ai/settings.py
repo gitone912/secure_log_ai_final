@@ -122,3 +122,16 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+STATIC_URL = '/static/'
+
+# Add this line to include the 'static' directory in each app
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "core/static"),
+]
+
+MEDIA_URL = '/media/'

@@ -1,0 +1,23 @@
+<!-- get_lines.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Lines</title>
+</head>
+<body>
+    <form method="post" action="{% url 'get_threat_solution' %}">
+        {% csrf_token %}
+        <label for="selected_lines">Select Lines:</label>
+        <select name="selected_lines" multiple>
+            {% for line in lines %}
+                <option value="{{ line }}">{{ line }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
